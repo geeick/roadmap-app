@@ -1,0 +1,53 @@
+import { useEffect, useState } from "react";
+import AuthForm from "./AuthForm";
+import Roadmap from "./Roadmap";
+import StepPage from "./StepPage";
+import { currentUser, logOut, type User } from "./auth";
+import { diagnoses } from "./data";
+
+const useHash = () => {
+  const [hash, setHash] = useState(location.hash);
+  useEffect(() => {
+    const onChange = () => setHash(location.hash);
+    addEventListener("hashchange", onChange);
+    return () => removeEventListener("hashchange", onChange);
+  }, []);
+  return hash;
+};
+
+export default function App() {
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const hash = useHash();
+
+  useEffect(() => {
+    currentUser().then(setUser).catch(() => setUser(null));
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [hash]);
+
+  if (user === undefined) return null;
+
+  const diagnosis = diagnoses.find((d) => d.id === user?.diagnosis);
+  if (!user || !diagnosis) return <AuthForm onDone={setUser} />;
+
+  const n = Number(hash.match(/^#\/step\/(\d+)$/)?.[1]);
+  const step = diagnosis.steps[n - 1];
+
+  return (
+    <>
+      {step ? <StepPage d={diagnosis} step={step} n={n} /> : <Roadmap d={diagnosis} />}
+      <button
+        className="link logout"
+        onClick={async () => {
+          await logOut();
+          location.hash = "";
+          setUser(null);
+        }}
+      >
+        Log out
+      </button>
+    </>
+  );
+}
