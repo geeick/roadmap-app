@@ -425,3 +425,15 @@ nav svg, .navbar svg { display: block; width: 22px; height: 22px; flex-shrink: 0
   .profile-page .profile-tiles { grid-template-columns: 1fr; }
   .profile-page .profile-section { padding: 18px; }
 }
+
+
+/* Scroll-linked road parallax. The whole road + numbered pins move together. */
+.road .parallax-road { overflow: visible; }
+.road .road-layer { transform: translateX(var(--road-shift, 0px)); }
+.road .parallax-road .dashes { stroke-dashoffset: var(--dash-offset, 0px); }
+.road ol { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .road .road-layer { transform: none; }
+  .road .parallax-road .dashes { stroke-dashoffset: 0; }
+}
