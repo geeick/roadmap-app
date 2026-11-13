@@ -35,8 +35,8 @@ export default function App() {
 
   return (
     <>
-      {hash === "#/profile" ? (
-        <Profile user={user} diagnosis={diagnosis} />
+      {hash.startsWith("#/profile") ? (
+        <Profile user={user} diagnosis={diagnosis} page={hash.split("/")[2] ?? "overview"} />
       ) : step ? (
         <StepPage d={diagnosis} step={step} n={n} userId={user.id} />
       ) : (

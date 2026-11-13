@@ -1,354 +1,260 @@
-* { box-sizing: border-box; }
-body {
-  margin: 0;
+/* Roadmap app — consolidated styles */
+:root {
   font-family: "Outfit", system-ui, sans-serif;
   color: #4a4a4a;
   background: #fff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
 }
 
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; padding-bottom: 92px; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 3px solid #4fc3e3;
+  outline-offset: 3px;
+}
+
+/* Shared banner and page geometry */
 .banner {
   height: 96px;
   border-radius: 0 0 50% 50% / 0 0 48px 48px;
-  transition: background 0.2s;
+  transition: background-color .2s;
 }
-
-/* roadmap */
-.roadmap { max-width: 640px; margin: 0 auto; padding: 0 20px 48px; }
-.roadmap .banner { margin: 0 -20px; }
-.roadmap h1 { margin: 32px 0 4px; font-weight: 300; line-height: 1.05; }
+.roadmap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px 48px;
+}
+.roadmap > .banner { margin: 0 -20px; }
+.roadmap h1 {
+  margin: 32px 0 4px;
+  font-weight: 300;
+  line-height: 1.08;
+}
 .roadmap .light { display: block; font-size: 2.2rem; color: #6b6b6b; }
 .roadmap .name { display: block; font-size: 2.6rem; font-weight: 700; color: #1d1d1d; }
 .subtitle { margin: 0 0 24px; font-size: 1.15rem; color: #6b6b6b; }
 
+/* Roadmap illustration and clickable steps */
 .road { position: relative; }
 .road svg { position: absolute; top: 0; left: 0; }
 .asphalt { fill: none; stroke: #4a4a4a; stroke-width: 44; }
 .dashes { fill: none; stroke: #fff; stroke-width: 2; stroke-dasharray: 10 10; }
-.num { fill: #fff; font: 700 18px "Outfit", sans-serif; text-anchor: middle; dominant-baseline: central; }
-
+.num {
+  fill: #fff;
+  font: 700 18px "Outfit", sans-serif;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
 .road ol { list-style: none; margin: 0 0 0 112px; padding: 0; }
+.road ol > li > a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.road ol > li > a:hover h2 { text-decoration: underline; }
+.road ol > li > a:focus-visible { border-radius: 8px; }
 .road h2 { margin: 0 0 6px; font-size: 1.4rem; font-weight: 700; line-height: 1.15; }
 .road ul { margin: 0; padding-left: 1.1em; }
 .road ul li { margin: 2px 0; line-height: 1.3; }
-
+.road .pin { cursor: pointer; }
 .all { margin: 24px 0 0; }
-.all a { color: inherit; word-break: break-all; }
+.all a { color: inherit; overflow-wrap: anywhere; }
 
-/* auth */
-.auth { max-width: 420px; margin: 0 auto; padding: 24px 20px 48px; display: flex; flex-direction: column; gap: 14px; }
+/* Authentication */
+.auth {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 .auth h1 { margin: 8px 0; font-size: 2rem; font-weight: 700; color: #1d1d1d; }
 .auth input[type="email"], .auth input[type="password"] {
-  font: inherit; padding: 12px 14px; border: 2px solid #d9d9d9; border-radius: 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #d9d9d9;
+  border-radius: 10px;
 }
-.auth input:focus-visible, button:focus-visible { outline: 3px solid #4FC3E3; outline-offset: 2px; }
 fieldset { border: 0; margin: 4px 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 legend { padding: 0; margin-bottom: 8px; font-weight: 600; color: #1d1d1d; }
-.pick { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 2px solid; border-radius: 10px; cursor: pointer; }
+.pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 2px solid;
+  border-radius: 10px;
+  cursor: pointer;
+}
 .pick.on { background: #f4f4f4; font-weight: 600; }
 .pick input { position: absolute; opacity: 0; pointer-events: none; }
-.pick:has(input:focus-visible) { outline: 3px solid #4FC3E3; outline-offset: 2px; }
-.dot { width: 14px; height: 14px; border-radius: 50%; }
-
+.pick:has(input:focus-visible) { outline: 3px solid #4fc3e3; outline-offset: 2px; }
+.dot { width: 14px; height: 14px; flex: none; border-radius: 50%; }
 .auth button[type="submit"] {
-  font: inherit; font-weight: 700; padding: 14px; border: 0; border-radius: 10px;
-  background: #1d1d1d; color: #fff; cursor: pointer;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #1d1d1d;
+  color: #fff;
+  font-weight: 700;
 }
-.link { font: inherit; background: none; border: 0; color: #4a4a4a; text-decoration: underline; cursor: pointer; padding: 8px; }
+.link { padding: 8px; background: none; border: 0; color: #4a4a4a; text-decoration: underline; }
 .logout { display: block; margin: 0 auto 32px; }
-.error { margin: 0; color: #E8190C; font-weight: 600; }
+.error { margin: 8px 0; color: #e8190c; font-weight: 600; overflow-wrap: anywhere; }
 
-/* clickable steps */
-.road ol > li > a { display: flex; flex-direction: column; justify-content: center; height: 100%; color: inherit; text-decoration: none; }
-.road ol > li > a:hover h2 { text-decoration: underline; }
-.road ol > li > a:focus-visible { outline: 3px solid #4FC3E3; outline-offset: 2px; border-radius: 8px; }
-.road .pin { cursor: pointer; }
-
-/* step page */
+/* Roadmap step detail */
 .back { display: inline-block; margin-top: 20px; color: inherit; }
-.roadmap.step h1 { display: flex; align-items: center; gap: 14px; margin: 16px 0 24px; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.badge { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 1.2rem; }
+.roadmap.step h1 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 0 24px;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.badge {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+}
 .items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .items > li { padding: 0; border-left: 8px solid; border-radius: 8px; background: #f6f6f6; font-size: 1.1rem; }
-
-/* expandable items */
-.item { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; padding: 16px 18px; font: inherit; font-size: 1.1rem; color: inherit; text-align: left; background: none; border: 0; cursor: pointer; }
-.chev { flex: none; width: 10px; height: 10px; margin-right: 4px; border-right: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(45deg); transition: transform 0.15s; }
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 1.1rem;
+  text-align: left;
+}
+.chev {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-right: 4px;
+  border-right: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform .15s;
+}
 .item[aria-expanded="true"] .chev { transform: rotate(225deg); }
 .hint { margin: 0; padding: 0 18px 16px; color: #6b6b6b; }
+.row-error { padding: 0 18px; }
 .cards { list-style: none; margin: 0; padding: 0 12px 12px; display: flex; flex-direction: column; gap: 12px; }
-.card { display: grid; grid-template-columns: 64px 1fr; gap: 4px 14px; align-items: center; padding: 14px; background: #fff; border-radius: 10px; }
-.avatar { grid-row: 1 / 3; display: grid; place-items: center; width: 64px; height: 64px; border: 3px solid; border-radius: 50%; font-weight: 700; font-size: 1.2rem; color: #4a4a4a; }
+.card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 4px 14px;
+  align-items: center;
+  min-width: 0;
+  padding: 16px;
+  background: #fff;
+  border-radius: 12px;
+}
+.avatar {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 3px solid;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
 .card h3 { margin: 0; align-self: end; font-size: 1.15rem; color: #1d1d1d; }
 .actions { display: flex; gap: 8px; align-self: start; }
-.actions a { display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid #4a4a4a; border-radius: 50%; color: #4a4a4a; }
+.actions a {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid #4a4a4a;
+  border-radius: 50%;
+  color: #4a4a4a;
+}
 .actions svg { width: 18px; height: 18px; }
 .card .meta, .card .tags { grid-column: 1 / -1; margin: 0; }
 .card .meta { display: flex; flex-direction: column; margin-top: 8px; }
 .card .tags { color: #8a8a8a; }
-
-/* resource cards */
-.card.plain { grid-template-columns: 1fr; }
+.card.plain { grid-template-columns: minmax(0, 1fr); }
 .card.plain h3 { align-self: start; }
 .card.plain .meta { margin-top: 4px; }
-.card .open { grid-column: 1 / -1; justify-self: start; margin-top: 6px; font-weight: 600; color: inherit; }
-
-/* Navigation icon sizing */
-nav svg,
-.navbar svg,
-.nav svg {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-
-/* Fixed bottom navigation */
-nav,
-.navbar {
-  position: fixed;
-  bottom: 0;
-  top: auto;
-  left: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
-  padding: 14px 20px;
-  background: white;
-  border-top: 1px solid #e5e5e5;
-  z-index: 1000;
-}
-
-/* Navigation buttons */
-nav a,
-nav button,
-.navbar a,
-.navbar button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font: inherit;
-  color: #4a4a4a;
-  text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* Navigation icons */
-nav svg,
-.navbar svg {
-  width: 22px;
-  height: 22px;
-}
-
-/* Prevent navigation from covering page content */
-body {
-  padding-bottom: 90px;
-}
-
-/* Profile page checklist */
-.profile .checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.profile .checklist ul {
-  list-style: none;
-  padding: 0;
-  margin: 12px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.profile .checklist li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: #f7f7f7;
-  border-radius: 10px;
-}
-
-.profile .checklist input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  accent-color: #4fc3e3;
-  flex-shrink: 0;
-}
-
-.profile .checklist a {
-  margin-left: auto;
-  color: #4a4a4a;
-  font-size: 0.9rem;
-  text-decoration: underline;
-}
-
-.profile h2 {
-  margin-top: 30px;
-}
-
-.profile h3 {
-  margin: 20px 0 12px;
-}
-
-
+.card .open { grid-column: 1 / -1; justify-self: start; margin-top: 6px; font-weight: 600; }
 .card .select-btn {
   grid-column: 1 / -1;
   justify-self: end;
-  min-width: 110px;
+  min-width: 112px;
+  margin-top: 12px;
   padding: 10px 22px;
-  margin: 12px 4px 0 0;
-  border: 2px solid #4FC3E3;
+  border: 2px solid #4fc3e3;
   border-radius: 10px;
-  background: #4FC3E3;
-  color: white;
-  font: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
+  background: #4fc3e3;
+  color: #fff;
+  font-weight: 700;
+  font-size: .95rem;
   white-space: nowrap;
-  cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background-color .15s, color .15s;
 }
+.card .select-btn:hover:not(:disabled) { background: #35b4d8; border-color: #35b4d8; }
+.card .select-btn.selected { background: #fff; color: #2998b9; }
+.card .select-btn:disabled { opacity: .6; cursor: wait; }
 
-.card .select-btn:hover {
-  background: #35b4d8;
+/* Fixed bottom navigation — class-agnostic for the NavBar component */
+nav, .navbar {
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 18px;
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 -3px 14px rgb(0 0 0 / 3%);
 }
-
-.card .select-btn.selected {
-  background: white;
-  color: #2998b9;
-}
-
-.card .select-btn:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-
-/* PROFILE PAGE */
-
-.profile {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 24px 110px;
-}
-
-.profile h1 {
-  font-size: 2.4rem;
-  font-weight: 700;
-  margin: 32px 0 24px;
-}
-
-.profile h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0 0 18px;
-}
-
-.profile section {
-  background: #f7f7f7;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
-}
-
-.profile a {
+nav a, nav button, .navbar a, .navbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
   color: #4a4a4a;
   text-decoration: none;
-}
-
-/* INFORMATION */
-
-.profile section p {
-  margin: 10px 0;
-  line-height: 1.5;
-}
-
-/* CHECKLIST */
-
-.profile .checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.profile .checklist ul {
-  list-style: none;
-  padding: 0;
-  margin: 12px 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.profile .checklist li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: white;
-  border-radius: 10px;
-}
-
-.profile .checklist label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  cursor: pointer;
-}
-
-.profile .checklist input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  flex-shrink: 0;
-  accent-color: #4FC3E3;
-}
-
-.profile .checklist li a {
-  margin-left: auto;
-  padding: 6px 12px;
-  border: 1px solid #dedede;
-  border-radius: 8px;
-  background: #f8f8f8;
-  font-size: 0.85rem;
   font-weight: 600;
-  white-space: nowrap;
 }
-
-.profile .checklist li a:hover {
-  background: #e9e9e9;
-}
-
-/* ROADMAP SECTIONS */
-
-.profile .checklist h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0 0 12px;
-}
-
-/* MOBILE */
-
-@media (max-width: 600px) {
-  .profile {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .profile section {
-    padding: 18px;
-  }
-
-  .profile .checklist li {
-    padding: 12px;
-  }
-}nav svg, .navbar svg { display: block; width: 22px; height: 22px; flex-shrink: 0; }
+nav a:hover, nav button:hover, .navbar a:hover, .navbar button:hover { background: #f4f4f4; }
+nav svg, .navbar svg { display: block; width: 22px; height: 22px; flex-shrink: 0; }
 
 /* Profile: uses the actual class names from Profile.tsx */
 .roadmap.profile-page {
@@ -475,4 +381,47 @@ body {
   .profile-saved li { align-items: flex-start; flex-direction: column; }
   nav, .navbar { gap: 10px; padding: 10px 8px; }
   nav a, nav button, .navbar a, .navbar button { gap: 5px; font-size: .87rem; }
+}
+/* Profile subpages. Append to src/styles.css. Scoped to avoid affecting bottom nav. */
+.profile-page .profile-subnav {
+  position: static; display: flex; flex-wrap: wrap; justify-content: flex-start;
+  gap: 8px; width: 100%; margin: 0 0 22px; padding: 0;
+  border: 0; background: transparent; box-shadow: none;
+}
+.profile-page .profile-subnav .profile-tab {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 14px; border: 1px solid #e6e6e6; border-radius: 999px;
+  background: #f7f7f7; color: #555; font-size: .9rem; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+}
+.profile-page .profile-subnav .profile-tab:hover { background: #efefef; }
+.profile-page .profile-subnav .profile-tab.active { background: #252525; border-color: #252525; color: white; }
+.profile-page .profile-subtitle { color: #777; margin-top: -8px; }
+.profile-page .profile-progress-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.profile-page .profile-progress-heading span { color: #777; font-size: .9rem; }
+.profile-page .profile-progress .progress-track { margin: 12px 0 20px; }
+.profile-page .profile-primary-link { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 11px 16px; background: #262626; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; }
+.profile-page .profile-primary-link:hover { background: #444; }
+.profile-page .profile-text-link { display: inline-block; margin-top: 16px; color: #287f9b; font-weight: 600; text-decoration: none; }
+.profile-page .profile-text-link:hover { text-decoration: underline; }
+.profile-page .profile-tiles { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; margin-bottom: 20px; }
+.profile-page .profile-tile { display: flex; flex-direction: column; gap: 6px; padding: 22px; border: 1px solid #eaeaea; border-radius: 16px; background: #f7f7f7; text-decoration: none; }
+.profile-page .profile-tile:hover { background: #f0f0f0; }
+.profile-page .profile-tile-number { font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.profile-page .profile-tile strong { color: #222; font-size: 1.1rem; }
+.profile-page .profile-tile > span:last-child { color: #777; font-size: .88rem; }
+.profile-page .profile-check-label { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; cursor: pointer; }
+.profile-page .profile-check-label > span { min-width: 0; line-height: 1.35; }
+.profile-page .profile-check > a { flex: none; margin-left: auto; padding: 7px 13px; border-radius: 8px; background: #f2f2f2; color: #4a4a4a; text-decoration: none; font-size: .86rem; font-weight: 600; }
+.profile-page .profile-check > a:hover { background: #e9e9e9; }
+.profile-page .profile-account > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px 20px; padding: 16px 0; border-bottom: 1px solid #e8e8e8; overflow-wrap: anywhere; }
+.profile-page .profile-account > div:last-child { border: 0; }
+.profile-page .profile-account > div span { color: #777; }
+.profile-page .profile-account > div strong { color: #333; }
+.profile-page .profile-loading { padding: 22px; color: #777; }
+@media (max-width: 520px) {
+  .profile-page .profile-subnav { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px; scrollbar-width: thin; }
+  .profile-page .profile-subnav .profile-tab { padding: 9px 12px; font-size: .83rem; }
+  .profile-page .profile-tiles { grid-template-columns: 1fr; }
+  .profile-page .profile-section { padding: 18px; }
 }

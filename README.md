@@ -1,21 +1,19 @@
-# Roadmap profile upgrade
+# Profile subpages update
 
-Copy these files into your existing project (replace App.tsx and StepPage.tsx):
+Replace these three files in your existing project:
 
 - `src/App.tsx`
-- `src/StepPage.tsx`
-- `src/Profile.tsx` (new)
-- `src/NavBar.tsx` (new)
-- `src/profileDb.ts` (new)
+- `src/Profile.tsx`
+- `src/styles.css`
 
-Append `profile-styles.css` to your existing `src/styles.css`.
+**Do not replace the entire `src` folder.** Keep your existing `main.tsx`, `profileDb.ts`, `StepPage.tsx`, `NavBar.tsx`, etc.
 
-In Supabase SQL Editor run `supabase/profile_migration.sql` **after** running the original `supabase/schema.sql`.
+With `npm run dev`, the persistent bottom navigation's Profile link opens the profile overview. Tabs provide separate routes:
 
-No new npm packages are needed.
+- `#/profile` — Overview
+- `#/profile/checklist` — Roadmap checklist
+- `#/profile/care-team` — My care team
+- `#/profile/resources` — Saved resources
+- `#/profile/account` — My information
 
-Run `npm run build` then push to GitHub to deploy.
-
-Important: `src/seed.ts` contains fabricated example providers, phone numbers and events. Replace them with verified sources or clearly label them as mock examples before real patients use the app.
-
-Security note: diagnosis data is sensitive health information. RLS protects rows at the database level, but production patient use may require HIPAA/other privacy compliance, contracts, access controls and a security assessment.
+No new database migration required. All saves and checklist changes use the existing Supabase functions. After copying the files, run `npm run build` to check types and deployment readiness.
