@@ -16,32 +16,61 @@ export default function Roadmap({ d }: { d: Diagnosis }) {
     if (!svg) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
+    const EASING = 0.055; // Lower values create a longer, smoother delay.
+    const SHIFT_FACTOR = 0.035;
+    const MAX_SHIFT = 35;
+    const DASH_FACTOR = 0.35;
 
-    const update = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        if (reducedMotion.matches) {
-          svg.style.removeProperty("--road-shift");
-          svg.style.removeProperty("--dash-offset");
-          return;
-        }
-        // Subtle sideways parallax keeps markers close to their labels.
-        const shift = Math.min(window.scrollY * 0.018, 18);
-        svg.style.setProperty("--road-shift", `${shift}px`);
-        svg.style.setProperty("--dash-offset", `${window.scrollY * 0.25}px`);
-      });
+    let frame = 0;
+    let current = window.scrollY;
+    let target = current;
+
+    const draw = () => {
+      const shift = -Math.min(current * SHIFT_FACTOR, MAX_SHIFT);
+      svg.style.setProperty("--road-shift", `${shift}px`);
+      svg.style.setProperty("--dash-offset", `${current * DASH_FACTOR}px`);
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    reducedMotion.addEventListener("change", update);
+    const animate = () => {
+      frame = 0;
+      if (reducedMotion.matches) return;
+      current += (target - current) * EASING;
+
+      if (Math.abs(target - current) < 0.1) current = target;
+      draw();
+
+      // Only animate while catching up to the scroll position.
+      if (current !== target) frame = requestAnimationFrame(animate);
+    };
+
+    const onScroll = () => {
+      if (reducedMotion.matches) return;
+      target = window.scrollY;
+      if (!frame) frame = requestAnimationFrame(animate);
+    };
+
+    const onMotionChange = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (reducedMotion.matches) {
+        svg.style.removeProperty("--road-shift");
+        svg.style.removeProperty("--dash-offset");
+      } else {
+        current = target = window.scrollY;
+        draw();
+      }
+    };
+
+    onMotionChange();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    reducedMotion.addEventListener("change", onMotionChange);
     return () => {
-      window.removeEventListener("scroll", update);
-      reducedMotion.removeEventListener("change", update);
+      window.removeEventListener("scroll", onScroll);
+      reducedMotion.removeEventListener("change", onMotionChange);
       cancelAnimationFrame(frame);
     };
   }, []);
+
   let path = `M ${x(0)} 0 L ${x(0)} ${y(0)}`;
   for (let i = 1; i < n; i++) {
     const mid = (y(i - 1) + y(i)) / 2;
