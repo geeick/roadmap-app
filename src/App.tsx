@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
 import Roadmap from "./Roadmap";
 import StepPage from "./StepPage";
+import Profile from "./Profile";
+import NavBar from "./NavBar";
 import { currentUser, logOut, type User } from "./auth";
 import { diagnoses } from "./data";
 
@@ -22,13 +24,9 @@ export default function App() {
   useEffect(() => {
     currentUser().then(setUser).catch(() => setUser(null));
   }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [hash]);
+  useEffect(() => { window.scrollTo(0, 0); }, [hash]);
 
   if (user === undefined) return null;
-
   const diagnosis = diagnoses.find((d) => d.id === user?.diagnosis);
   if (!user || !diagnosis) return <AuthForm onDone={setUser} />;
 
@@ -37,17 +35,18 @@ export default function App() {
 
   return (
     <>
-      {step ? <StepPage d={diagnosis} step={step} n={n} /> : <Roadmap d={diagnosis} />}
-      <button
-        className="link logout"
-        onClick={async () => {
-          await logOut();
-          location.hash = "";
-          setUser(null);
-        }}
-      >
-        Log out
-      </button>
+      {hash === "#/profile" ? (
+        <Profile user={user} diagnosis={diagnosis} />
+      ) : step ? (
+        <StepPage d={diagnosis} step={step} n={n} userId={user.id} />
+      ) : (
+        <Roadmap d={diagnosis} />
+      )}
+      <NavBar onLogOut={async () => {
+        await logOut();
+        location.hash = "";
+        setUser(null);
+      }} />
     </>
   );
 }
